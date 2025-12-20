@@ -19,7 +19,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
+				sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -58,7 +58,7 @@ export default {
 				},
 				status: {
 					blue: 'hsl(var(--status-blue))',
-					yellow: 'hsl(var(--status-yellow))', 
+					yellow: 'hsl(var(--status-yellow))',
 					green: 'hsl(var(--status-green))',
 					orange: 'hsl(var(--status-orange))'
 				},
