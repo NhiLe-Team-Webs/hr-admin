@@ -6,8 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+import api from "@/lib/api";
 
 interface TimeOffStats {
   total: number;
@@ -78,7 +77,6 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function Dashboard() {
-  const { getAuthHeader } = useAuth();
   const [stats, setStats] = useState<TimeOffStats | null>(null);
   const [recentRequests, setRecentRequests] = useState<TimeOffRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,23 +84,16 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const headers = {
-          "Content-Type": "application/json",
-          ...getAuthHeader(),
-        };
-
         // Fetch stats
-        const statsRes = await fetch(`${API_URL}/nreport/time-off/stats`, { headers });
-        const statsData = await statsRes.json();
-        if (statsData.success) {
-          setStats(statsData.data);
+        const statsRes = await api.get("/nreport/time-off/stats");
+        if (statsRes.data.success) {
+          setStats(statsRes.data.data);
         }
 
         // Fetch recent pending requests
-        const requestsRes = await fetch(`${API_URL}/nreport/time-off?status=PENDING&limit=5`, { headers });
-        const requestsData = await requestsRes.json();
-        if (requestsData.success) {
-          setRecentRequests(requestsData.data);
+        const requestsRes = await api.get("/nreport/time-off?status=PENDING&limit=5");
+        if (requestsRes.data.success) {
+          setRecentRequests(requestsRes.data.data);
         }
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -112,7 +103,8 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, [getAuthHeader]);
+  }, []);
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {

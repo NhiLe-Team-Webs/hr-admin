@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+import api from "@/lib/api";
 
 interface User {
     id: string;
@@ -36,8 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [session, setSession] = useState<Session | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Load auth state from localStorage on mount
-    useEffect(() => {
+    const loadAuthState = () => {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
             try {
@@ -46,9 +44,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setSession(parsed.session);
             } catch (e) {
                 localStorage.removeItem(STORAGE_KEY);
+                setUser(null);
+                setSession(null);
             }
+        } else {
+            setUser(null);
+            setSession(null);
         }
         setIsLoading(false);
+    };
+
+    // Load auth state from localStorage on mount and when event is triggered
+    useEffect(() => {
+        loadAuthState();
+
+        const handleAuthStateChange = () => {
+            loadAuthState();
+        };
+
+        window.addEventListener("auth-state-changed", handleAuthStateChange);
+        return () => window.removeEventListener("auth-state-changed", handleAuthStateChange);
     }, []);
 
     // Save auth state to localStorage
@@ -66,17 +81,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
         try {
-            const response = await fetch(`${API_URL}/hr/auth/admin/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
+            const response = await api.post("/hr/auth/admin/login", { email, password });
+            const data = response.data;
 
-            const data = await response.json();
-
-            if (!response.ok || !data.success) {
+            if (!data.success) {
                 return {
                     success: false,
                     error: data.error?.message || "Đăng nhập thất bại",
@@ -93,11 +101,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
             saveAuthState(data.data.user, data.data.session);
             return { success: true };
-        } catch (error) {
+        } catch (error: unknown) {
             console.error("Login error:", error);
+            let errorMessage = "Lỗi kết nối. Vui lòng thử lại.";
+
+            if (error && typeof error === 'object' && 'response' in error) {
+                const axiosError = error as { response?: { data?: { error?: { message?: string } } } };
+                errorMessage = axiosError.response?.data?.error?.message || errorMessage;
+            }
+
             return {
                 success: false,
-                error: "Lỗi kết nối. Vui lòng thử lại.",
+                error: errorMessage,
             };
         }
     };
@@ -137,3 +152,4 @@ export function useAuth() {
     }
     return context;
 }
+

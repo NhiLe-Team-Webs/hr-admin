@@ -127,7 +127,7 @@ const EmployeeNode = ({ data }: { data: EmployeeData }) => {
     <Card className="p-4 min-w-[240px] shadow-elevated bg-card border-border">
       <div className="flex items-center space-x-3">
         <Avatar className="h-12 w-12">
-          <AvatarFallback 
+          <AvatarFallback
             className="text-white font-semibold"
             style={{ backgroundColor: levelColors[data.level] }}
           >
@@ -138,8 +138,8 @@ const EmployeeNode = ({ data }: { data: EmployeeData }) => {
           <h3 className="font-semibold text-card-foreground truncate">{data.name}</h3>
           <p className="text-sm text-muted-foreground truncate">{data.position}</p>
           <div className="flex items-center mt-1">
-            <Badge 
-              variant="secondary" 
+            <Badge
+              variant="secondary"
               className="text-xs"
               style={{ backgroundColor: `${levelColors[data.level]}20`, color: levelColors[data.level] }}
             >
@@ -313,7 +313,7 @@ export default function OrgChart() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (connection: any) => {
+    (connection: unknown) => {
       // Prevent adding new connections in org chart
       return;
     },
@@ -338,15 +338,15 @@ export default function OrgChart() {
         className="bg-background"
         proOptions={{ hideAttribution: true }}
       >
-        <Controls 
+        <Controls
           className="bg-card border-border"
           showZoom={true}
           showFitView={true}
           showInteractive={false}
         />
-        <Background 
-          color="hsl(var(--muted-foreground))" 
-          gap={20} 
+        <Background
+          color="hsl(var(--muted-foreground))"
+          gap={20}
           size={1}
           className="opacity-20"
         />

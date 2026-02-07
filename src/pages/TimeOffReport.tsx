@@ -20,8 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+import api from "@/lib/api";
 
 interface TimeOffRequest {
     id: string;
@@ -60,7 +59,6 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function TimeOffReport() {
-    const { getAuthHeader } = useAuth();
     const [requests, setRequests] = useState<TimeOffRequest[]>([]);
     const [pagination, setPagination] = useState<Pagination>({
         total: 0,
@@ -78,31 +76,21 @@ export default function TimeOffReport() {
         setError(null);
 
         try {
-            const params = new URLSearchParams({
-                page: page.toString(),
-                limit: "10",
-            });
+            const params: Record<string, string | number> = {
+                page,
+                limit: 10,
+            };
 
             if (status && status !== "ALL") {
-                params.append("status", status);
+                params.status = status;
             }
 
             if (search) {
-                params.append("search", search);
+                params.search = search;
             }
 
-            const response = await fetch(`${API_URL}/nreport/time-off?${params}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    ...getAuthHeader(),
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to fetch time off requests");
-            }
-
-            const result = await response.json();
+            const response = await api.get("/nreport/time-off", { params });
+            const result = response.data;
 
             if (result.success) {
                 setRequests(result.data);
@@ -110,17 +98,29 @@ export default function TimeOffReport() {
             } else {
                 throw new Error(result.message || "Unknown error");
             }
-        } catch (err) {
+        } catch (err: unknown) {
             console.error("Error fetching time off requests:", err);
-            setError(err instanceof Error ? err.message : "Lỗi khi tải dữ liệu");
+            let errorMessage = "Lỗi khi tải dữ liệu";
+
+            if (err instanceof Error) {
+                errorMessage = err.message;
+            }
+
+            if (err && typeof err === 'object' && 'response' in err) {
+                const axiosError = err as { response?: { data?: { message?: string } } };
+                errorMessage = axiosError.response?.data?.message || errorMessage;
+            }
+
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
-    }, [getAuthHeader, statusFilter, searchQuery]);
+    }, [statusFilter, searchQuery]);
+
 
     useEffect(() => {
         fetchTimeOffRequests();
-    }, []);
+    }, [fetchTimeOffRequests]);
 
     const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= pagination.totalPages) {
