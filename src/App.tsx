@@ -8,6 +8,7 @@ import Layout from "./components/Layout";
 import { Agentation } from "agentation";
 
 import Dashboard from "./pages/Dashboard";
+import MembersOverview from "./pages/MembersOverview";
 import TimeOffReport from "./pages/TimeOffReport";
 import Login from "./pages/Login";
 
@@ -71,6 +72,7 @@ function AppRoutes() {
         }
       >
         <Route index element={<Dashboard />} />
+        <Route path="members-overview" element={<MembersOverview />} />
         <Route path="time-off-report" element={<TimeOffReport />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

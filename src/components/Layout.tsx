@@ -1,5 +1,5 @@
 import { Outlet, useLocation, Link } from "react-router-dom";
-import { Shield, BarChart3, FileText, ChevronDown, ChevronRight, LogOut, Menu, X, Bell, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { Shield, BarChart3, Users, FileText, ChevronDown, ChevronRight, LogOut, Menu, X, Bell, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ import {
 // Active navigation items
 const navigation = [
   { name: "Tổng quan", href: "/", icon: BarChart3 },
+  { name: "Tổng thông tin", href: "/members-overview", icon: Users },
 
   {
     name: "Quản lý Report",

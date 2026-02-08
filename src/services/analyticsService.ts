@@ -88,8 +88,30 @@ const CHART_COLORS = [
     "#1D4ED8", // Darker Blue
 ];
 
+export interface MemberInfo {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    role: string;
+    teams: string[];
+    hasNquoc: boolean;
+    dob: string;
+    age: number;
+    gender: string;
+    createdAt: string;
+}
+
+export interface MembersPaginatedResponse {
+    members: MemberInfo[];
+    total: number;
+    page: number;
+    limit: number;
+}
+
 export const analyticsService = {
     getOverview: async (): Promise<AnalyticsOverview> => {
+        // ... (existing code remains same)
         try {
             const response = await api.get("/hr/analytics/team-overview");
             if (response.data.success) {
@@ -150,6 +172,21 @@ export const analyticsService = {
         } catch (error) {
             console.error("Error fetching from server:", error);
             return mockData;
+        }
+    },
+
+    getMembers: async (page: number = 1, limit: number = 10, search?: string): Promise<MembersPaginatedResponse> => {
+        try {
+            const response = await api.get("/hr/analytics/members", {
+                params: { page, limit, search }
+            });
+            if (response.data.success) {
+                return response.data.data;
+            }
+            return { members: [], total: 0, page, limit };
+        } catch (error) {
+            console.error("Error fetching members:", error);
+            return { members: [], total: 0, page, limit };
         }
     }
 };
