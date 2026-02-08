@@ -12,7 +12,8 @@ import {
 
 // Active navigation items
 const navigation = [
-  { name: "Dashboard", href: "/", icon: BarChart3 },
+  { name: "Tổng quan", href: "/", icon: BarChart3 },
+
   {
     name: "Quản lý Report",
     icon: FileText,
@@ -75,11 +76,11 @@ export default function Layout() {
       </div>
 
       <div className={cn("p-6 flex items-center gap-3 transition-all duration-300", isCollapsed ? "justify-center p-4" : "md:p-8")}>
-        <div className={cn("relative flex items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-red-600 shadow-lg shadow-primary/25 transition-all duration-300", isCollapsed ? "h-10 w-10" : "h-10 w-10")}>
+        <div className={cn("relative flex items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-blue-600 shadow-lg shadow-primary/25 transition-all duration-300", isCollapsed ? "h-10 w-10" : "h-10 w-10")}>
           <Shield className="h-6 w-6 text-white" />
         </div>
         {!isCollapsed && (
-          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-red-600 animate-in fade-in duration-300 whitespace-nowrap">
+          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 animate-in fade-in duration-300 whitespace-nowrap">
             HR Admin
           </span>
         )}
@@ -177,7 +178,7 @@ export default function Layout() {
                       className={cn(
                         "flex items-center justify-center p-3 rounded-2xl transition-all duration-300 group",
                         isActive(item.href!)
-                          ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg shadow-primary/25"
+                          ? "bg-gradient-to-r from-primary to-blue-600 text-white shadow-lg shadow-primary/25"
                           : "text-muted-foreground hover:bg-white/30 hover:text-foreground"
                       )}
                     >
@@ -196,7 +197,7 @@ export default function Layout() {
                 className={cn(
                   "flex items-center px-4 py-3 rounded-2xl transition-all duration-300 group",
                   isActive(item.href!)
-                    ? "bg-gradient-to-r from-primary to-red-600 text-white shadow-lg shadow-primary/25"
+                    ? "bg-gradient-to-r from-primary to-blue-600 text-white shadow-lg shadow-primary/25"
                     : "text-muted-foreground hover:bg-white/30 hover:text-foreground"
                 )}
               >
@@ -213,7 +214,7 @@ export default function Layout() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
           <div className={cn("flex items-center relative z-10", isCollapsed ? "justify-center" : "gap-3")}>
-            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-rose-400 flex items-center justify-center text-white font-bold text-sm shadow-md ring-2 ring-white/50 shrink-0">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-sm shadow-md ring-2 ring-white/50 shrink-0">
               {getInitials(user?.full_name)}
             </div>
             {!isCollapsed && (
@@ -234,7 +235,7 @@ export default function Layout() {
               logout();
             }}
             className={cn(
-              "mt-3 flex items-center justify-center gap-2 text-rose-500 bg-rose-50 hover:bg-rose-100 rounded-xl transition-all duration-300 relative z-20 cursor-pointer hover:shadow-sm",
+              "mt-3 flex items-center justify-center gap-2 text-blue-500 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-300 relative z-20 cursor-pointer hover:shadow-sm",
               isCollapsed ? "w-10 h-10 p-0 mx-auto" : "w-full px-3 py-2 text-xs font-semibold"
             )}
             title="Sign Out"

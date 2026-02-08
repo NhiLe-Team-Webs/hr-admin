@@ -1,0 +1,19 @@
+Thay đổi giao diện dashboard, đổi tên thành "Tổng quan"
+
+- Các thông tin cần hiển thị: 
++ Tổng thành viên NhiLe Team: total_member
++ Tỷ lệ thành viên từng team: team_member_ratio
++ Tỷ lệ leader/colead/member: role_ratio
++ tỉ lệ tuổi: age_ratio
++ tỉ lệ vào NLT: join_ratio
++ tỉ lệ thay đổi giữa các team: team_change_ratio
+
+Giao diện tham khảo ảnh t gửi: image
+
+Chi tiết data lấy từ đâu: 
+- total_member: table users, role = member -> tính lấy Tổng
+- team_member_ratio: table user_teams, team_id -> table teams -> tính tỷ lệ
+- role_ratio: table user_teams, team_role -> tính tỷ lệ
+- age_ratio: table users, current date - dob -> tính tỷ lệ
+- join_ratio: table users, created_at -> tính theo đơn vị người, tính theo tuần.
+- team_change_ratio: table user_teams, team_id -> table teams -> tính tỷ lệ thay đổi giữa các team theo đơn vị tuần (xem team nào tăng giảm số nhân sự ra sao)

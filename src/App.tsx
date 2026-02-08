@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import Layout from "./components/Layout";
+import { Agentation } from "agentation";
+
 import Dashboard from "./pages/Dashboard";
 import TimeOffReport from "./pages/TimeOffReport";
 import Login from "./pages/Login";
@@ -84,7 +86,12 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <AppRoutes />
+          {import.meta.env.MODE === "development" && (
+            <Agentation endpoint="http://localhost:4747" />
+          )}
+
         </AuthProvider>
+
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -18,11 +18,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    /* Brand - Vibrant & Neon-ish */
-    /* Brand - Original Red */
-    --primary: 0 84% 41%;
+    /* Brand - Vibrant Blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-glass: rgba(193, 17, 17, 0.85);
+    --primary-glass: rgba(59, 130, 246, 0.85);
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -38,7 +37,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 0 84% 41%;
+    --ring: 217 91% 60%;
 
     --radius: 1.5rem;
     /* Super Rounded */
@@ -56,7 +55,7 @@
     --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
 
-    --primary: 0 84% 65%;
+    --primary: 217 91% 75%;
     --primary-foreground: 222 47% 11%;
 
     /* ... other dark mode colors adjustment ... */
@@ -72,9 +71,9 @@
     @apply bg-background text-foreground tracking-wide font-sans;
     /* Liquid Background */
     background:
-      radial-gradient(circle at 15% 50%, rgba(255, 128, 128, 0.15), transparent 25%),
-      radial-gradient(circle at 85% 30%, rgba(128, 128, 255, 0.15), transparent 25%);
-    background-color: #f0f4f8;
+      radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.15), transparent 25%);
+    background-color: #f8fafc;
     background-attachment: fixed;
     /* Font */
     font-family: 'Outfit', sans-serif;
