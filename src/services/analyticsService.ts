@@ -100,6 +100,23 @@ export interface MemberInfo {
     age: number;
     gender: string;
     createdAt: string;
+    // New fields
+    telegramUsername?: string;
+    facebookLink?: string;
+    linkedinLink?: string;
+    address?: string;
+    workEquipment?: string;
+    nltEventsJoined?: string;
+    coursesJoined?: string;
+    exerciseGroupJoined?: string;
+    developmentGoal?: string;
+    sunSign?: string;
+    moonSign?: string;
+    risingSign?: string;
+    lifePathNumber?: string;
+    soulNumber?: string;
+    maturityNumber?: string;
+    position?: string;
 }
 
 export interface MembersPaginatedResponse {
@@ -175,10 +192,10 @@ export const analyticsService = {
         }
     },
 
-    getMembers: async (page: number = 1, limit: number = 10, search?: string): Promise<MembersPaginatedResponse> => {
+    getMembers: async (page: number = 1, limit: number = 10, search?: string, team?: string): Promise<MembersPaginatedResponse> => {
         try {
             const response = await api.get("/hr/analytics/members", {
-                params: { page, limit, search }
+                params: { page, limit, search, team }
             });
             if (response.data.success) {
                 return response.data.data;
